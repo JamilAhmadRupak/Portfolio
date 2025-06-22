@@ -48,15 +48,15 @@ const About = () => {
                          <h3 className="text-xl font-bold text-white mb-4">Stats</h3>
                         <div className="grid grid-cols-3 gap-4 pt-4">
                            <StatItem icon={<Coffee />} number="500+" label="Coffees" />
-                           <StatItem icon={<Code />} number="50+" label="Projects" />
-                           <StatItem icon={<Award />} number="3+" label="Years" />
+                           <StatItem icon={<Code />} number="5+" label="Projects" />
+                           <StatItem icon={<Award />} number="+" label="Years" />
                         </div>
                     </BentoBox>
 
                     {/* Image */}
                     <BentoBox className="lg:row-start-2 flex items-center justify-center bg-cover bg-center" style={{backgroundImage: "url('https://www.transparenttextures.com/patterns/cubes.png')"}}>
                         <img
-                            src="https://avatars.githubusercontent.com/u/98692337?v=4"
+                            src="jamil_ahmad_rupak.png"
                             alt="Jamil Ahmad Rupak"
                             className="w-48 h-48 rounded-full border-4 border-slate-700 object-cover shadow-2xl"
                         />
