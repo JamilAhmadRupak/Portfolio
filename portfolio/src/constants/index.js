@@ -45,7 +45,7 @@ export const skills = [
     {
         title: "Frontend & Tools",
         iconType: "BrainCircuit",
-        skills: ["React", "Tailwind CSS", "Git & GitHub", "Docker"],
+        skills: ["React", "Next.js", "Tailwind CSS", "Git & GitHub", "Docker"],
     },
 ];
 
@@ -54,7 +54,7 @@ export const projects = [
         title: "ModelMate",
         description: "A forum type platform for AI user about their user experience.(still in development) It allows users to share their experiences, ask questions, and collaborate on machine learning projects.",
         tags: ['Collaboration', 'ML', 'Platform', 'Django'],
-        link: "https://github.com/mmi404/modelmate0.1",
+        link: "https://modelmate-beige.vercel.app/",
         isFeatured: true,
         image: "https://placehold.co/600x400/0f172a/2dd4bf?text=ModelMate" 
     },
