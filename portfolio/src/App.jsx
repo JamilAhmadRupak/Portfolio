@@ -6,6 +6,7 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Experience from './components/Experience';
 import Skills from './components/Skill'
+import Achievements from './components/Achievements';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
@@ -21,7 +22,7 @@ const App = () => {
     useEffect(() => {
         // Function to handle scroll events and update active section
         const handleScroll = () => {
-            const sections = ['home', 'about', 'experience', 'skills', 'projects', 'contact'];
+            const sections = ['home', 'about', 'experience', 'skills', 'achievements', 'projects', 'contact'];
             const scrollPosition = window.scrollY + window.innerHeight / 2.5;
 
             for (const section of sections) {
@@ -66,6 +67,7 @@ const App = () => {
                     <About />
                     <Experience />
                     <Skills />
+                    <Achievements />
                     <Projects />
                     <Contact />
                 </main>

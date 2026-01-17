@@ -5,6 +5,7 @@ export const navLinks = [
     { href: '#about', label: 'About' },
     { href: '#experience', label: 'Experience'},
     { href: '#skills', label: 'Skills' },
+    { href: '#achievements', label: 'Achievements' },
     { href: '#projects', label: 'Projects' },
     { href: '#contact', label: 'Contact' },
 ];
@@ -73,5 +74,26 @@ export const projects = [
         tags: ['Django', 'E-commerce', 'Python'],
         link: "https://github.com/JamilAhmadRupak/DjangoProject",
         image: "https://placehold.co/600x400/0f172a/2dd4bf?text=E-commerce"
+    },
+];
+
+export const achievements = [
+    {
+        title: "Django Web Development Certificate",
+        issuer: "Edge Course",
+        date: "2024",
+        description: "Successfully completed comprehensive Django web development course, mastering backend development, database management, and building full-stack web applications.",
+        image: "/django_certificate_edge_course.jpg",
+        iconType: "award",
+        link: "#"
+    },
+    {
+        title: "MICRO-OPS HACKATHON ",
+        issuer: "CUET CSE FEST 2025",
+        date: "2026",
+        description: "Created a modern and responsive portfolio website showcasing skills, projects, and professional journey in web development.",
+        image: "/microOps_hackathon_certificate.png",
+        iconType: "trophy",
+        link: "#"
     },
 ];
