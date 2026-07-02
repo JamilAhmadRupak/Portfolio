@@ -3,8 +3,8 @@ import { Star, ExternalLink } from 'lucide-react';
 import { AnimatedSection } from './AnimatedSection';
 import { projects } from '../constants';
 
-// The ProjectCard component is now updated to accept and handle a 'video' prop.
-const ProjectCard = ({ title, description, tags, link, isFeatured, image, video }) => (
+// The ProjectCard component accepts video, a single image, or a small screenshot pair.
+const ProjectCard = ({ title, description, tags, link, isFeatured, image, images, video }) => (
     <div className={`bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden flex flex-col border transition-all duration-300 group ${
         isFeatured ? 'border-teal-500/50 shadow-lg shadow-teal-500/10' : 'border-slate-700/50 hover:border-teal-500/50'
     } hover:-translate-y-2`}>
@@ -21,6 +21,18 @@ const ProjectCard = ({ title, description, tags, link, isFeatured, image, video 
                 >
                     Your browser does not support the video tag.
                 </video>
+            ) : images?.length ? (
+                <div className="grid grid-cols-2 h-full">
+                    {images.map((projectImage) => (
+                        <img
+                            key={projectImage}
+                            src={projectImage}
+                            alt={title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            onError={(e) => { e.target.onerror = null; e.target.src=`https://placehold.co/600x400/0f172a/2dd4bf?text=${title.replace(' ', '+')}`; }}
+                        />
+                    ))}
+                </div>
             ) : (
                 <img 
                     src={image} 
