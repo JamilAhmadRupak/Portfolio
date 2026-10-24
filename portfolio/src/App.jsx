@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // Import all the components
 import Header from './components/Header';
@@ -10,22 +10,24 @@ import Achievements from './components/Achievements';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import { navLinks } from './constants';
+
+const sectionIds = navLinks.map((link) => link.href.substring(1));
 
 // The main App component
 const App = () => {
     // State to track the active section for the navigation bar
     const [activeSection, setActiveSection] = useState('home');
-    // State to track the mouse position for the background gradient effect
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    // The pointer glow is driven by CSS variables so mouse movement doesn't re-render the page
+    const glowRef = useRef(null);
 
     // Effect to add and clean up event listeners
     useEffect(() => {
         // Function to handle scroll events and update active section
         const handleScroll = () => {
-            const sections = ['home', 'about', 'experience', 'skills', 'achievements', 'projects', 'contact'];
             const scrollPosition = window.scrollY + window.innerHeight / 2.5;
 
-            for (const section of sections) {
+            for (const section of sectionIds) {
                 const element = document.getElementById(section);
                 if (element && scrollPosition >= element.offsetTop && scrollPosition < element.offsetTop + element.offsetHeight) {
                     setActiveSection(section);
@@ -35,12 +37,13 @@ const App = () => {
 
         // Function to handle mouse movement for the background effect
         const handleMouseMove = (e) => {
-            setMousePosition({ x: e.clientX, y: e.clientY });
+            glowRef.current?.style.setProperty('--x', `${e.clientX}px`);
+            glowRef.current?.style.setProperty('--y', `${e.clientY}px`);
         };
 
         // Add event listeners when the component mounts
-        window.addEventListener('scroll', handleScroll);
-        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
         // Remove event listeners when the component unmounts
         return () => {
@@ -53,9 +56,10 @@ const App = () => {
         <div className="bg-slate-900 text-slate-300 font-sans leading-relaxed selection:bg-teal-400 selection:text-slate-900">
             {/* Animated Gradient Pointer */}
             <div
-                className="pointer-events-none fixed inset-0 z-30 transition duration-300 lg:absolute"
+                ref={glowRef}
+                className="pointer-events-none fixed inset-0 z-30 hidden lg:block"
                 style={{
-                    background: `radial-gradient(600px at ${mousePosition.x}px ${mousePosition.y}px, rgba(29, 78, 216, 0.15), transparent 80%)`,
+                    background: 'radial-gradient(600px at var(--x, 50%) var(--y, 20%), rgba(29, 78, 216, 0.15), transparent 80%)',
                 }}
             ></div>
 
@@ -66,9 +70,9 @@ const App = () => {
                     <Hero />
                     <About />
                     <Experience />
-                    <Skills />
-                    <Achievements />
                     <Projects />
+                    <Achievements />
+                    <Skills />
                     <Contact />
                 </main>
                 <Footer />
@@ -78,4 +82,3 @@ const App = () => {
 };
 
 export default App;
-

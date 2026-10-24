@@ -1,11 +1,7 @@
 import React from 'react';
-import { Github, Linkedin, FileText } from 'lucide-react';
-
-const socialLinks = [
-    { href: "https://github.com/JamilAhmadRupak/", icon: Github },
-    { href: "https://www.linkedin.com/in/jamil-ahmad-rupak-997077317/", icon: Linkedin },
-    { href: "https://github.com/JamilAhmadRupak/cv", icon: FileText }
-];
+import { FileText } from 'lucide-react';
+import SocialIcon from './SocialIcon';
+import { socialLinks, cvUrl } from '../constants';
 
 const Footer = () => {
     return (
@@ -18,15 +14,19 @@ const Footer = () => {
                             href={social.href}
                             target="_blank"
                             rel="noopener noreferrer"
+                            aria-label={social.label}
                             className="hover:text-teal-400 transition-colors duration-300"
                         >
-                            <social.icon size={24} />
+                            <SocialIcon name={social.icon} size={24} />
                         </a>
                     ))}
+                    <a href={cvUrl} target="_blank" rel="noopener noreferrer" aria-label="Resume" className="hover:text-teal-400 transition-colors duration-300">
+                        <FileText size={24} />
+                    </a>
                 </div>
                 <p>&copy; {new Date().getFullYear()} Jamil Ahmad Rupak. All rights reserved.</p>
                 <p className="text-sm mt-2">
-                    Built with <span className="text-red-500">❤</span> using React, Tailwind CSS, and Framer Motion.
+                    Built with React, Vite and Tailwind CSS.
                 </p>
             </div>
         </footer>
