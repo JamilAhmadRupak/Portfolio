@@ -77,15 +77,6 @@
     padding-right: 0.06em; /* keeps the italic overhang from clipping gradients */
   }
 
-  /* Faint grid behind the hero, fading out from the top centre */
-  .hero-grid {
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-    background-size: 56px 56px;
-    mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 20%, transparent 75%);
-  }
-
   /* Subtle film grain so the black doesn't read as a flat screen colour */
   .grain {
     opacity: 0.05;

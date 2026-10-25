@@ -58,10 +58,9 @@ const App = () => {
 
     return (
         <div className="relative bg-zinc-950 text-zinc-300 font-sans leading-relaxed selection:bg-accent-400 selection:text-zinc-900">
-            {/* Static hero backdrop (works on touch screens too): warm glow + a faint grid that fades out */}
+            {/* Static hero backdrop (works on touch screens too): soft warm glow */}
             <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[1100px] overflow-hidden">
                 <div className="absolute left-1/2 top-[-380px] h-[760px] w-[1100px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(216,176,106,0.16),transparent)]"></div>
-                <div className="hero-grid absolute inset-0"></div>
             </div>
 
             {/* Film grain over the whole page */}
