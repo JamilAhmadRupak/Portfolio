@@ -1,4 +1,115 @@
 @import "tailwindcss";
+
+/* Self-hosted fonts (bundled by Vite, no third-party requests) */
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+@import "@fontsource/instrument-serif/400.css";
+@import "@fontsource/instrument-serif/400-italic.css";
+
+@theme {
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, monospace;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+
+  /* Brand accent: warm champagne gold. Swap this one scale to re-theme the whole site. */
+  --color-accent-50: #fbf7ee;
+  --color-accent-100: #f6ecd6;
+  --color-accent-200: #eedcb4;
+  --color-accent-300: #e4c78c;
+  --color-accent-400: #d8b06a;
+  --color-accent-500: #c99a50;
+  --color-accent-600: #ab7c3f;
+  --color-accent-700: #876035;
+  --color-accent-800: #6c4d2e;
+  --color-accent-900: #583f28;
+  --color-accent-950: #302114;
+
+  --animate-fade-in: fade-in 200ms ease-out;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem; /* keep anchored sections clear of the fixed header */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2 {
+    letter-spacing: -0.025em;
+  }
+
+  h3 {
+    letter-spacing: -0.01em;
+  }
+
+  /* Respect users who ask for less motion */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Serif italic accent word inside sans headings, e.g. "My <span class="accent">Journey</span>" */
+  .accent {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0;
+    font-size: 1.12em;
+    line-height: 1;
+    padding-right: 0.06em; /* keeps the italic overhang from clipping gradients */
+  }
+
+  /* Faint grid behind the hero, fading out from the top centre */
+  .hero-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 20%, transparent 75%);
+  }
+
+  /* Subtle film grain so the black doesn't read as a flat screen colour */
+  .grain {
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Horizontal swipe rows without a visible scrollbar */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Small uppercase labels above section headings */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+}
+
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

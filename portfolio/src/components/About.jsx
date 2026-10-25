@@ -1,43 +1,38 @@
 import React from 'react';
-import { User, Boxes, ScanLine, LineChart, Trophy, Briefcase, FileText } from 'lucide-react';
+import { User, Boxes, ScanLine, LineChart, Briefcase, GraduationCap, MapPin, Sparkles } from 'lucide-react';
 import { AnimatedSection } from './AnimatedSection'; // Reusable animation component
+import SectionHeading from './SectionHeading';
 
 // A simple styled container for bento grid items
 const BentoBox = ({ className = '', children }) => (
-    <div className={`bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700/50 transition-all duration-300 hover:border-teal-500/50 ${className}`}>
+    <div className={`bg-zinc-900/50 backdrop-blur-sm p-6 md:p-7 rounded-2xl border border-white/5 transition-colors duration-300 hover:border-accent-400/30 ${className}`}>
         {children}
     </div>
 );
 
-// A reusable stat item
-const StatItem = ({ icon, number, label }) => (
-    <div className="text-center group">
-        <div className="text-teal-400 mb-2 flex justify-center group-hover:scale-110 transition-transform duration-300">
-            {React.cloneElement(icon, { size: 28 })}
-        </div>
-        <div className="text-2xl font-bold text-white group-hover:text-teal-400 transition-colors duration-300">{number}</div>
-        <div className="text-sm text-slate-400">{label}</div>
-    </div>
-);
+const now = [
+    { icon: Briefcase, text: 'Building inventory & pricing systems at Algoclan' },
+    { icon: GraduationCap, text: 'Final year, CSE at CUET' },
+    { icon: MapPin, text: 'Based in Dhaka, Bangladesh' },
+    { icon: Sparkles, text: 'Open to software engineering roles' },
+];
+
+const interests = [
+    { icon: ScanLine, text: 'Warehouse & inventory workflows' },
+    { icon: LineChart, text: 'Pricing & market data' },
+    { icon: Boxes, text: 'Clean backend architecture' },
+];
 
 const About = () => {
-    const interests = [
-        { icon: <ScanLine size={20}/>, text: 'Warehouse & inventory workflows' },
-        { icon: <LineChart size={20}/>, text: 'Pricing & market data' },
-        { icon: <Boxes size={20}/>, text: 'Clean backend architecture' },
-    ];
-
     return (
-        <section id="about" className="py-24 md:py-32">
+        <section id="about" className="py-16 md:py-32">
             <AnimatedSection>
-                <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-16">
-                    About <span className="text-teal-400">Me</span>
-                </h2>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <SectionHeading index="01" label="Introduction" title="About" accent="Me" />
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
                     {/* Bio */}
                     <BentoBox className="lg:col-span-2">
-                        <h3 className="text-xl font-bold text-white mb-4 flex items-center"><User className="mr-3 text-teal-400" /> Bio</h3>
-                        <div className="text-slate-400 space-y-4">
+                        <h3 className="text-xl font-semibold text-white mb-4 flex items-center"><User className="mr-3 text-accent-400" size={20} /> Bio</h3>
+                        <div className="text-zinc-400 space-y-4 leading-relaxed">
                             <p>
                                 I'm Jamil Ahmad Rupak, a software engineer at Algoclan and a final-year CSE student at CUET.
                                 Since October 2025 I've been building a multi-tenant inventory platform for an e-commerce reseller:
@@ -51,14 +46,20 @@ const About = () => {
                         </div>
                     </BentoBox>
 
-                    {/* Stats */}
+                    {/* Currently */}
                     <BentoBox>
-                         <h3 className="text-xl font-bold text-white mb-4">At a glance</h3>
-                        <div className="grid grid-cols-3 gap-4 pt-4">
-                           <StatItem icon={<Trophy />} number="1st" label="AI hackathon win" />
-                           <StatItem icon={<Briefcase />} number="3+" label="Top-10 national hackathons" />
-                           <StatItem icon={<FileText />} number="~500" label="CP problems solved" />
-                        </div>
+                        <h3 className="eyebrow text-accent-300 mb-5">Currently</h3>
+                        <ul className="space-y-4">
+                            {now.map((item) => {
+                                const Icon = item.icon;
+                                return (
+                                    <li key={item.text} className="flex items-start gap-3 text-zinc-300">
+                                        <Icon size={18} className="mt-0.5 flex-shrink-0 text-accent-400" />
+                                        <span>{item.text}</span>
+                                    </li>
+                                );
+                            })}
+                        </ul>
                     </BentoBox>
 
                     {/* Image */}
@@ -66,20 +67,23 @@ const About = () => {
                         <img
                             src="/jamil_ahmad_rupak.png"
                             alt="Jamil Ahmad Rupak"
-                            className="w-48 h-48 rounded-full border-4 border-slate-700 object-cover shadow-2xl"
+                            className="w-32 h-32 md:w-48 md:h-48 rounded-full object-cover shadow-2xl ring-1 ring-accent-400/40 ring-offset-4 ring-offset-zinc-950"
                         />
                     </BentoBox>
 
-                    {/* What I Love */}
+                    {/* What I enjoy */}
                     <BentoBox className="lg:col-span-2">
-                         <h3 className="text-xl font-bold text-white mb-4">What I enjoy building</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                            {interests.map((interest) => (
-                                <div key={interest.text} className="bg-slate-700/50 p-4 rounded-lg flex flex-col items-center justify-center space-y-2">
-                                    <div className="text-teal-400">{interest.icon}</div>
-                                    <p className="text-slate-300">{interest.text}</p>
-                                </div>
-                            ))}
+                        <h3 className="text-xl font-semibold text-white mb-4">What I enjoy building</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 md:text-center">
+                            {interests.map((item) => {
+                                const Icon = item.icon;
+                                return (
+                                    <div key={item.text} className="bg-zinc-800/50 px-4 py-3 md:p-5 rounded-xl flex items-center gap-3 md:flex-col md:justify-center">
+                                        <Icon size={20} className="text-accent-400" />
+                                        <p className="text-zinc-300">{item.text}</p>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </BentoBox>
                 </div>

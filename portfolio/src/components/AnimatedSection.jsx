@@ -1,10 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+const prefersReducedMotion = () =>
+    typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
 export const AnimatedSection = ({ children }) => {
-    const [isVisible, setIsVisible] = useState(false);
+    // With reduced motion, show content immediately instead of fading it in on scroll
+    const [isVisible, setIsVisible] = useState(prefersReducedMotion);
     const ref = useRef(null);
 
     useEffect(() => {
+        const node = ref.current;
+        if (!node || isVisible) return undefined;
+
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
@@ -17,16 +24,10 @@ export const AnimatedSection = ({ children }) => {
             }
         );
 
-        if (ref.current) {
-            observer.observe(ref.current);
-        }
+        observer.observe(node);
 
-        return () => {
-            if (ref.current) {
-                observer.unobserve(ref.current);
-            }
-        };
-    }, []);
+        return () => observer.unobserve(node);
+    }, [isVisible]);
 
     return (
         <div

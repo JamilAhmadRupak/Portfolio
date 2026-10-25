@@ -12,12 +12,10 @@ export const socialLinks = [
 ];
 
 export const navLinks = [
-    { href: '#home', label: 'Home' },
     { href: '#about', label: 'About' },
     { href: '#experience', label: 'Experience' },
     { href: '#projects', label: 'Projects' },
     { href: '#achievements', label: 'Achievements' },
-    { href: '#skills', label: 'Skills' },
     { href: '#contact', label: 'Contact' },
 ];
 
@@ -121,7 +119,9 @@ export const projects = [
         description: "Study app with flashcards scheduled by the SM-2 spaced-repetition algorithm, topic-organized notes and recurring tasks. Celery jobs send email reminders; progress is charted with Chart.js.",
         tags: ['React', 'Django REST', 'Celery', 'JWT'],
         link: "https://learnwsrs.netlify.app/",
-        video: "/ltsr_video.mp4"
+        repo: "https://github.com/JamilAhmadRupak/ltsr",
+        video: "/ltsr_demo.mp4",
+        poster: "/ltsr_poster.jpg"
     },
     {
         title: "ModelMate",
@@ -129,13 +129,18 @@ export const projects = [
         description: "Community web app where AI users share knowledge and discuss models, with authentication and a REST API.",
         tags: ['Django', 'PostgreSQL', 'REST APIs'],
         link: "https://modelmate-beige.vercel.app/",
+        repo: "https://github.com/JamilAhmadRupak/ModelMate",
+        image: "/modelmate_home.jpg"
     },
 ];
 
 // badge: label shown on the image ("Certificate", "Photo", "Paper").
+// highlight: shown as a large card; the rest go in the compact list below.
+// link: original file or profile, shown as a secondary link (images open in a lightbox).
 export const achievements = [
     {
         title: "1st Place, AI Hackathon",
+        highlight: true,
         issuer: "Mysoftheaven (BD) Ltd. × Department of CSE, CUET",
         date: "2026",
         description: "Won first place at an AI hackathon organized jointly by Mysoftheaven and CUET CSE, held alongside the workshop \"Challenges of Quality Software Development with AI and IT Entrepreneurship\".",
@@ -146,6 +151,7 @@ export const achievements = [
     },
     {
         title: "Top 10, Micro-Ops Hackathon",
+        highlight: true,
         issuer: "CUET CSE Fest 2025 · Team DevsOfOlympus",
         date: "Dec 2025",
         description: "Placed in the top ten in a national microservices and DevOps hackathon. One of 3+ national hackathons where I finished top 10, out of 7+ I've competed in.",
@@ -156,6 +162,7 @@ export const achievements = [
     },
     {
         title: "Paper Presented at ICCCNT 2025",
+        highlight: true,
         issuer: "16th ICCCNT · IIT Indore, with IEEE EPS & AICTE",
         date: "Jul 2025",
         description: "Presented \"Momentum: An E-Court Service and Lawyer Help Assistant Mobile Application\" with case filing, cause list, court discrepancy and case search features (Paper ID 2133).",
@@ -166,6 +173,7 @@ export const achievements = [
     },
     {
         title: "Judge, BUILD@CUET Hackathon",
+        highlight: true,
         issuer: "CUET Computer Club · presented by Gemini & MLH",
         date: "2026",
         description: "Invited to judge a 3-hour hackathon, evaluating the ideas and prototypes student teams built.",
@@ -197,6 +205,7 @@ export const achievements = [
         date: "Sep – Dec 2024",
         description: "Government-funded training under the ICT Division's Enhancing Digital Government and Economy (EDGE) project, conducted by the CSE department at CUET.",
         image: "/django_certificate_edge_thumb.jpg",
+        full: "/django_certificate_edge_course.jpg",
         badge: "Certificate",
         iconType: "medal",
         link: "/django_certificate_edge_course.jpg"

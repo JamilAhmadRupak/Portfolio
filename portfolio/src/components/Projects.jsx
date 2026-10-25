@@ -1,120 +1,158 @@
-import React from 'react';
-import { ArrowUpRight, ExternalLink, Star } from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
+import { ArrowUpRight, ExternalLink, Github, Star } from 'lucide-react';
 import { AnimatedSection } from './AnimatedSection';
+import SectionHeading from './SectionHeading';
 import { projects } from '../constants';
 
-// Shown when a project has no screenshot or video yet
-const MediaPlaceholder = ({ title, subtitle }) => (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-slate-900 via-slate-950 to-teal-950/60 pt-9">
-        <span className="text-3xl font-extrabold tracking-tight text-white/90">{title}</span>
-        {subtitle && <span className="text-sm text-teal-300/80">{subtitle}</span>}
+// Plays only while on screen and loads nothing until then; stays on the poster for reduced-motion users
+const LazyVideo = ({ src, poster, className }) => {
+    const ref = useRef(null);
+
+    useEffect(() => {
+        const video = ref.current;
+        if (!video) return undefined;
+        if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return undefined;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    video.play().catch(() => {});
+                } else {
+                    video.pause();
+                }
+            },
+            { threshold: 0.25 }
+        );
+        observer.observe(video);
+
+        return () => observer.disconnect();
+    }, []);
+
+    return (
+        <video ref={ref} src={src} poster={poster} loop muted playsInline preload="none" className={className}>
+            Your browser does not support the video tag.
+        </video>
+    );
+};
+
+// Fake browser chrome around project media
+const WindowBar = ({ title }) => (
+    <div className="absolute left-0 right-0 top-0 z-10 flex items-center justify-between border-b border-white/10 bg-zinc-950/80 px-4 py-2 backdrop-blur">
+        <div className="flex gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-red-400"></span>
+            <span className="h-2.5 w-2.5 rounded-full bg-yellow-400"></span>
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
+        </div>
+        <span className="font-mono text-xs text-zinc-500">{title}</span>
     </div>
 );
 
-// The ProjectCard component accepts video, a single image, or a small screenshot pair.
-const ProjectCard = ({ title, subtitle, description, tags, link, isFeatured, image, images, video }) => (
-    <div className={`bg-slate-900/80 backdrop-blur-sm rounded-xl overflow-hidden flex flex-col border transition-all duration-300 group ${
-        isFeatured
-            ? 'md:col-span-2 border-teal-400/50 shadow-2xl shadow-teal-950/40'
-            : 'border-slate-800 hover:border-teal-500/50'
-    } hover:-translate-y-2`}>
-        <div className={`${isFeatured ? 'h-80' : 'h-56'} overflow-hidden bg-slate-950 relative`}>
-            <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between border-b border-white/10 bg-slate-950/80 px-4 py-2 backdrop-blur">
-                <div className="flex gap-1.5">
-                    <span className="h-2.5 w-2.5 rounded-full bg-red-400"></span>
-                    <span className="h-2.5 w-2.5 rounded-full bg-yellow-400"></span>
-                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
-                </div>
-                <span className="text-xs font-semibold text-slate-400">{title}</span>
+const ProjectMedia = ({ title, image, images, video, poster }) => {
+    const media = 'h-full w-full object-cover object-left-top transition-transform duration-700 group-hover:scale-[1.03]';
+
+    if (video) return <LazyVideo src={video} poster={poster} className={`${media} pt-9`} />;
+    if (images?.length) {
+        return (
+            <div className="grid h-full grid-cols-1 gap-px pt-9 sm:grid-cols-2">
+                {images.map((src) => (
+                    <img key={src} src={src} alt={title} loading="lazy" className={media} />
+                ))}
             </div>
-            {video ? (
-                <video
-                    src={video}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="metadata"
-                    className="w-full h-full object-cover pt-9 group-hover:scale-105 transition-transform duration-500"
-                >
-                    Your browser does not support the video tag.
-                </video>
-            ) : images?.length ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 h-full gap-px pt-9">
-                    {images.map((projectImage) => (
-                        <img
-                            key={projectImage}
-                            src={projectImage}
-                            alt={title}
-                            loading="lazy"
-                            className="w-full h-full object-cover object-left-top group-hover:scale-105 transition-transform duration-500"
-                        />
-                    ))}
-                </div>
-            ) : image ? (
-                <img
-                    src={image}
-                    alt={title}
-                    loading="lazy"
-                    className="w-full h-full object-cover pt-9 group-hover:scale-105 transition-transform duration-500"
-                />
-            ) : (
-                <MediaPlaceholder title={title} subtitle={subtitle} />
-            )}
+        );
+    }
+    if (image) return <img src={image} alt={title} loading="lazy" className={`${media} pt-9`} />;
+    return (
+        <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-zinc-900 via-zinc-950 to-accent-950/60 pt-9">
+            <span className="accent text-4xl text-white/90">{title}</span>
         </div>
-        <div className="p-6 md:p-7 flex flex-col flex-grow">
-            <div className="flex-grow">
-                {isFeatured && (
-                    <div className="inline-flex items-center rounded-full border border-yellow-400/30 bg-yellow-400/10 px-3 py-1 text-yellow-300 mb-3">
-                        <Star size={16} className="mr-2" />
-                        <span className="font-bold text-sm">Featured Project</span>
-                    </div>
-                )}
-                <h3 className={`${isFeatured ? 'text-2xl md:text-3xl' : 'text-xl'} font-bold text-white group-hover:text-teal-300 transition-colors duration-300`}>
-                    {title}
-                </h3>
-                {subtitle && <p className="text-sm text-teal-300/80 mt-1">{subtitle}</p>}
-                <p className="text-slate-400 mt-3 mb-5 text-sm leading-relaxed">{description}</p>
+    );
+};
+
+const ProjectLinks = ({ link, repo }) => (
+    <div className="flex flex-wrap gap-3">
+        <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg bg-accent-400 px-4 py-2 text-sm font-semibold text-zinc-950 transition-colors duration-300 hover:bg-accent-300"
+        >
+            Live Demo <ExternalLink size={15} />
+        </a>
+        {repo && (
+            <a
+                href={repo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-zinc-700 px-4 py-2 text-sm font-semibold text-zinc-200 transition-colors duration-300 hover:border-accent-400 hover:text-accent-300"
+            >
+                <Github size={15} /> Source
+            </a>
+        )}
+    </div>
+);
+
+const ProjectCard = (project) => {
+    const { title, subtitle, description, tags, isFeatured } = project;
+
+    return (
+        <article
+            className={`group flex flex-col overflow-hidden rounded-2xl border bg-zinc-900/60 transition-all duration-300 hover:-translate-y-1 ${
+                isFeatured
+                    ? 'border-accent-400/30 shadow-2xl shadow-accent-950/30 hover:border-accent-400/60 md:col-span-2 lg:flex-row'
+                    : 'border-white/5 hover:border-accent-400/40'
+            }`}
+        >
+            <div className={`relative overflow-hidden bg-zinc-950 ${isFeatured ? 'h-72 md:h-96 lg:h-auto lg:min-h-[26rem] lg:w-3/5' : 'h-60'}`}>
+                <WindowBar title={title} />
+                <ProjectMedia {...project} />
             </div>
-            <div className="mt-auto">
-                <div className="flex flex-wrap gap-2 mb-4">
+
+            <div className={`flex flex-1 flex-col p-6 md:p-8 ${isFeatured ? 'lg:justify-center' : ''}`}>
+                {isFeatured && (
+                    <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-accent-400/30 bg-accent-400/10 px-3 py-1 text-xs font-semibold text-accent-300">
+                        <Star size={14} /> Featured project
+                    </span>
+                )}
+                <h3 className={`${isFeatured ? 'text-3xl' : 'text-2xl'} font-semibold text-white`}>{title}</h3>
+                {subtitle && <p className="mt-1 text-sm text-accent-300/90">{subtitle}</p>}
+                <p className="mt-4 text-sm leading-relaxed text-zinc-400">{description}</p>
+                <div className="mt-5 flex flex-wrap gap-2">
                     {tags.map((tag) => (
-                        <span key={tag} className="bg-slate-800 text-teal-200 border border-slate-700 text-xs font-semibold px-2.5 py-1 rounded-full">
+                        <span key={tag} className="rounded-md border border-zinc-800 bg-zinc-950/60 px-2.5 py-1 text-xs font-medium text-zinc-300">
                             {tag}
                         </span>
                     ))}
                 </div>
-                <a href={link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg bg-teal-400 px-4 py-2 font-semibold text-slate-950 hover:bg-cyan-300 transition-all duration-300">
-                    Live Demo <ExternalLink size={16} />
-                </a>
+                <div className="mt-6">
+                    <ProjectLinks {...project} />
+                </div>
             </div>
-        </div>
-    </div>
-);
+        </article>
+    );
+};
 
 const Projects = () => {
     return (
-        <section id="projects" className="py-24 md:py-32">
+        <section id="projects" className="py-16 md:py-32">
             <AnimatedSection>
-                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
-                    <div>
-                        <p className="text-sm font-bold uppercase tracking-[0.25em] text-teal-300 mb-3">Personal Projects</p>
-                        <h2 className="text-3xl md:text-4xl font-bold text-white">
-                            Things I've <span className="text-teal-400">Built</span>
-                        </h2>
-                        <p className="mt-3 max-w-2xl text-slate-400">
-                            Side projects built outside work. My Algoclan work is client-confidential, so it's described in Experience above.
-                        </p>
-                    </div>
-                    <a href="#contact" className="inline-flex items-center gap-2 text-slate-300 hover:text-teal-300 transition-colors">
-                        Discuss a project
-                        <ArrowUpRight size={18} />
-                    </a>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                   {projects.map((project) => (
-                       <ProjectCard key={project.title} {...project} />
-                   ))}
+                <SectionHeading
+                    index="03"
+                    label="Personal Projects"
+                    title="Things I've"
+                    accent="Built"
+                    action={
+                        <a href="#contact" className="inline-flex min-h-11 items-center gap-2 text-zinc-300 transition-colors hover:text-accent-300">
+                            Discuss a project
+                            <ArrowUpRight size={18} />
+                        </a>
+                    }
+                >
+                    Side projects built outside work. My Algoclan work is client-confidential, so it's described in Experience.
+                </SectionHeading>
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                    {projects.map((project) => (
+                        <ProjectCard key={project.title} {...project} />
+                    ))}
                 </div>
             </AnimatedSection>
         </section>
