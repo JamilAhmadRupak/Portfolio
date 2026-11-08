@@ -38,9 +38,11 @@ export const experienceData = [
             'Built stock reconciliation against physical warehouse counts and applied a reconciled count of ~19,400 inventory rows to production, with rollback files prepared in advance.',
             'Automated order ingestion and cross-marketplace delisting so sold items stop being listed elsewhere; added multi-client onboarding and per-client attribution.',
             'Implemented four pricing strategies (competitive index, demand momentum, seasonality, market momentum) in a FastAPI repricing service with scheduled bid/ask time-series collection.',
-            'Added audit logging, rate limiting, API-key auth, Swagger/OpenAPI docs and an AI chatbot for weekly inventory analysis; Dockerized and set up CI/CD for another product.',
+            'Built the weekly-analysis tool for the platform’s tool-calling AI agent (Vercel AI SDK): five P&L, revenue and stock aggregations run in parallel for the model to report on.',
+            'Built n8n workflows that collect articles daily from public sources, clean them and upsert them into MongoDB without duplicates.',
+            'Added audit logging, rate limiting, API-key auth and Swagger/OpenAPI docs; Dockerized and set up CI/CD for another product.',
         ],
-        tags: ['Node.js', 'Express', 'Next.js', 'FastAPI', 'MongoDB', 'Docker', 'Vercel AI SDK'],
+        tags: ['Node.js', 'Express', 'Next.js', 'FastAPI', 'MongoDB', 'Docker', 'Vercel AI SDK', 'n8n'],
     },
     {
         type: 'work',
@@ -75,7 +77,7 @@ export const skills = [
     {
         title: "Languages",
         iconType: "Code",
-        skills: ["JavaScript", "Python", "Java", "C++", "C# (coursework)", "SQL"],
+        skills: ["JavaScript", "Python", "C++", "C# (coursework)", "SQL"],
     },
     {
         title: "Backend",
@@ -95,12 +97,12 @@ export const skills = [
     {
         title: "AI",
         iconType: "Sparkles",
-        skills: ["Vercel AI SDK", "OpenAI API", "Gemini API"],
+        skills: ["Tool-calling agents", "Vercel AI SDK", "OpenAI API", "Gemini API"],
     },
     {
         title: "DevOps & Tools",
         iconType: "Wrench",
-        skills: ["Docker", "CI/CD", "Git", "Swagger/OpenAPI", "Cron jobs", "Celery"],
+        skills: ["Docker", "CI/CD", "Git", "Swagger/OpenAPI", "Cron jobs", "Celery", "n8n"],
     },
 ];
 
@@ -108,7 +110,7 @@ export const projects = [
     {
         title: "HealthTwin",
         description: "AI-powered patient–doctor platform with symptom tracking, prescription assistance and AI-generated patient insights, built around a \"digital twin\" of each patient's health history.",
-        tags: ['Next.js', 'Django', 'PostgreSQL', 'REST APIs'],
+        tags: ['Next.js', 'Express', 'MongoDB', 'Gemini'],
         link: "https://patient-history-management-system.vercel.app/",
         isFeatured: true,
         images: ["/PATIENT_DASHBOARD.png", "/DOCTOR_DASHBOARD.png"]
