@@ -108,8 +108,9 @@ export const skills = [
 
 export const projects = [
     {
-        title: "HealthTwin",
-        description: "AI-powered patient–doctor platform with symptom tracking, prescription assistance and AI-generated patient insights, built around a \"digital twin\" of each patient's health history.",
+        title: "Automed",
+        subtitle: "AI patient health records",
+        description: "Patient–doctor platform built around a \"digital twin\" of each patient's medical history. Uploaded records are read with OCR and summarised by Gemini, an AI prescription assistant suggests medicines for the doctor to review, and patients approve who can see their records, with every view logged.",
         tags: ['Next.js', 'Express', 'MongoDB', 'Gemini'],
         link: "https://patient-history-management-system.vercel.app/",
         isFeatured: true,
