@@ -184,6 +184,17 @@ export const achievements = [
         iconType: "gavel",
     },
     {
+        title: "Industrial Attachment, AI R&D",
+        issuer: "Mysoft Heaven (BD) Ltd. · CUET CSE",
+        date: "Sep 2026",
+        description: "Completed a 3-week industrial attachment in the AI R&D division, leading a team that built an AI Security Gateway against prompt injection and data leakage in LLM apps and agents.",
+        image: "/mysoftheaven_attachment_certificate_thumb.jpg",
+        full: "/mysoftheaven_attachment_certificate.jpg",
+        badge: "Certificate",
+        iconType: "medal",
+        link: "/mysoftheaven_attachment_certificate.jpg"
+    },
+    {
         title: "~500 Problems Solved",
         issuer: "Codeforces & LeetCode",
         date: "",
